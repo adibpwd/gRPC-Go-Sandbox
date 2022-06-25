@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package model;
+
+import "google/protobuf/empty.proto";
+
+enum Status {
+    Draft = 0;
+    Publish = 1;
+}
+
+message Post {
+    string id = 1;
+    string title = 2;
+    string content = 3;
+}
+
+message PostList {
+    repeated Post list = 1;
+}
+
+message PostListByUser {
+    map<string, PostList> list = 1;
+}
+
+message PostAndUserId {
+    string user_id = 1;
+    Post post = 2;
+}
+
+message PostByUserId {
+    string user_id = 1;
+}
+
+
+service Posts {
+    rpc Add(PostAndUserId) returns (google.protobuf.Empty) {}
+    rpc List(PostByUserId) returns (PostList) {}
+}
